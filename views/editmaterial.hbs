@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/handlebars@latest/dist/handlebars.js"></script>
+    <link rel="stylesheet" href="/style.css">
+    <title>Document</title>
+</head>
+<body id="c">
+
+    {{!-- 選單 --}}
+    <div class="offcanvas offcanvas-start" tabindex="-1" id="offcanvas" aria-labelledby="offcanvasLabel">
+        <div class="offcanvas-header">
+            <ul class="nav flex-column">
+                <li class="nav-item">
+                    <a class="nav-link active" style="color:rgb(0, 0, 0)" href="/Warehousing">
+                        <b>材料管理</b>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" style="color:rgb(0, 0, 0)" href="/ordermanage">
+                        <b>訂單管理</b>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" style="color:rgb(0, 0, 0)" href="/purchase">
+                        <b>進貨管理</b>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" style="color:rgb(0, 0, 0)" href="/mrp">
+                        <b>MRP</b>
+                    </a>
+                </li> 
+            </ul>
+        </div>
+    </div>
+
+    {{!-- navbar --}}
+    <nav class="navbar navbar-dark bg-dark">
+        <span>
+            <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvas" aria-controls="offcanvas" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+        </span>
+        <h4>木製家具批發公司</h4>
+        <ul>
+            <li><a href="/login">Sign out</a></li>
+        </ul>
+    </nav>
+    {{#each rows}}
+        <div class="container mt-4" style="width: 60rem;">
+            <div class="card">
+                <div class="card-header">
+                    <center>
+                        </br>
+                        <p style="font-size:2em;font-weight:bold;" id="MID" name="MID">編號:{{this.MID}}</p>
+                    </center>
+                </div>
+                <div class="card-body" >
+                    <form action="/auth/editmaterial" method="POST">
+                        <div class="mx-auto" style="width:40rem;">
+
+                            <div class="mb-3 row" >
+                                {{!-- <label for="ID" type="hidden" class="col-sm-2 col-form-label" style="font-weight:bold;font-size:18px;">	商品品名</label> --}}
+                                <div class="col-sm-10">
+                                    <input type="hidden" class="form-control" id="ID" name="ID" value="{{this.MID}}">
+                                </div>
+                            </div>
+
+
+                            <div class="mb-3 row">
+                                <label for="name" class="col-sm-2 col-form-label" style="font-weight:bold;font-size:18px;">	商品品名</label>
+                                <div class="col-sm-10">
+                                    <input type="text" class="form-control" id="name" name="name" value="{{this.Mname}}">
+                                </div>
+                            </div>
+
+                            <div class="mb-3 row">
+                                <label for="time" class="col-sm-2 col-form-label" style="font-weight:bold;font-size:18px;">前置時間</label>
+                                <div class="col-sm-10">
+                                    <input type="text" class="form-control" id="time" name="time" value="{{this.leadtime}}">
+                                </div>
+                            </div>
+
+                            <div class="mb-3 row">
+                                <label for="batch" class="col-sm-2 col-form-label" style="font-weight:bold;font-size:18px;">批量</label>
+                                <div class="col-sm-10">
+                                    <input type="text" class="form-control" id="batch" name="batch" value="{{this.batch}}">
+                                </div>
+                            </div>
+
+                            <div class="mb-3 row">
+                                <label for="instock" class="col-sm-2 col-form-label" style="font-weight:bold;font-size:18px;">庫存</label>
+                                <div class="col-sm-10">
+                                    <input type="text" class="form-control" id="instock" name="instock" value="{{this.instock}}">
+                                </div>
+                            </div>
+
+                            <div class="mb-3 row">
+                                <label for="IsBig" class="col-sm-2 col-form-label" style="font-weight:bold;font-size:18px;">最終產品</label>
+                                <div class="col-sm-10">
+                                    <input type="text" class="form-control" id="IsBig" name="IsBig" value="{{this.IsBig}}">
+                                </div>
+                            </div>
+
+                            <center>
+                                <button type="submit" class="btn btn-secondary">Edit</button>
+                            </center>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    {{/each}}
+    {{!-- <script>
+        let results = '{{rows}}';
+        results = results.replaceAll('&quot;', '"');
+        results = JSON.parse(results);
+
+        console.log(results);
+    </script> --}}
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-gtEjrD/SeCtmISkJkNUaaKMoLD0//ElJ19smozuHV6z3Iehds+3Ulb9Bn9Plx0x4" crossorigin="anonymous"></script>
+    
+</body>
+</html>

@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/handlebars@latest/dist/handlebars.js"></script>
+    <link rel="stylesheet" href="/style.css">
+    <title>Document</title>
+</head>
+<body>
+
+    {{!-- 選單 --}}
+    <div class="offcanvas offcanvas-start" tabindex="-1" id="offcanvas" aria-labelledby="offcanvasLabel">
+        <div class="offcanvas-header">
+            <ul class="nav flex-column">
+                <li class="nav-item">
+                    <a class="nav-link active" style="color:rgb(0, 0, 0)" href="/Warehousing">
+                        <b>材料管理</b>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" style="color:rgb(0, 0, 0)" href="/ordermanage">
+                        <b>訂單管理</b>
+                    </a>
+                </li> 
+                <li class="nav-item">
+                    <a class="nav-link" style="color:rgb(0, 0, 0)" href="/purchase">
+                        <b>進貨管理</b>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link"style="color:rgb(0, 0, 0)" href="/mrp">
+                        <b>MRP</b>
+                    </a>
+                </li> 
+            </ul>
+        </div>
+    </div>
+
+    {{!-- navbar --}}
+    <nav class="navbar navbar-dark bg-dark">
+        <span>
+            <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvas" aria-controls="offcanvas" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+        </span>
+        <h4>木製家具批發公司</h4>
+        <ul>
+            <li><a href="/login">Sign out</a></li>
+        </ul>
+    </nav>
+
+    <div class="container mt-5">
+
+        <div class="row">
+            <div class="col-6">
+                <h1>訂單管理</h1><br>
+            </div>
+        </div>
+
+        <div class="table-responsive" >
+            <table class="table table-striped table-sm">
+                <thead>
+                    <tr>
+                        <th>編號</th>
+                        <th>訂購人</th>
+                        <th>手機</th>
+                        <th>訂購產品</th>
+                        <th>數量</th>
+                        <th>到貨日期</th>
+                        <th>是否移除</th>
+                    </tr>
+                </thead>
+                <tbody id="tb"></tbody>
+            </table>
+        </div>
+    </div>
+
+    <script>
+        //將渲染引擎的格式轉成JSON
+        let results = '{{results}}';
+        results = results.replaceAll('&quot;', '"');
+        results = JSON.parse(results);
+
+        let orderform = results[0];
+        let material = results[1];
+
+        for(let i = 0 ;i < orderform.length;i++){
+            tr = document.createElement("tr");
+
+            tdOID = document.createElement("td");
+            tdOID.innerHTML = orderform[i].OID;
+
+            tdname = document.createElement("td");
+            tdname.innerHTML = orderform[i].name;
+
+            tdphone = document.createElement("td");
+            tdphone.innerHTML = orderform[i].phone;
+
+            tdP = document.createElement("td");
+            for(let j = 0; j < material.length;j++){
+                if(orderform[i].MID == material[j].MID){
+                    tdP.innerHTML = material[j].Mname;
+                }
+            }
+
+            tdOnum = document.createElement("td");
+            tdOnum.innerHTML = orderform[i].number;
+
+            tdtime = document.createElement("td");
+            tdtime.innerHTML = orderform[i].time;
+
+            tdR = document.createElement("td");
+            console.log(orderform[i].OID);
+            tdR.innerHTML = '<a href="/ordermanage/'+orderform[i].OID+'" type="button" class="btn btn-light btn-small">Delete</i></a>';
+
+            tr.appendChild(tdOID);
+            tr.appendChild(tdname);
+            tr.appendChild(tdphone);
+            tr.appendChild(tdP);
+            tr.appendChild(tdOnum);
+            tr.appendChild(tdtime);
+            tr.appendChild(tdR);
+
+            document.getElementById("tb").appendChild(tr);
+        }
+    </script>
+    
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-gtEjrD/SeCtmISkJkNUaaKMoLD0//ElJ19smozuHV6z3Iehds+3Ulb9Bn9Plx0x4" crossorigin="anonymous"></script>
+    
+</body>
+</html>
